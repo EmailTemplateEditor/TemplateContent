@@ -1,0 +1,196 @@
+/* General Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.btn{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Close Button Styling */
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Modal Header and Titles */
+h2,
+h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Table Styling */
+.student-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-list th,
+.student-list td {
+    padding: 8px;
+    text-align: left;
+}
+
+.student-list th {
+    background-color: #f2f2f2;
+}
+
+.student-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.student-list td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-tabs {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.btn {
+    width: 200px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .student-list table {
+        font-size: 0.9rem;
+    }
+
+    .student-list th,
+    .student-list td {
+        padding: 6px;
+    }
+
+    .edit-form form div {
+        margin-bottom: 10px;
+    }
+
+    .edit-form input,
+    .edit-form select {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 6px 10px;
+    }
+
+    .close-btn {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-overlay {
+        padding: 10px;
+    }
+
+    .modal-content {
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .student-list table {
+        font-size: 0.8rem;
+    }
+
+    .student-list th,
+    .student-list td {
+        padding: 5px;
+    }
+
+    .edit-form input,
+    .edit-form select {
+        font-size: 0.85rem;
+    }
+
+    button {
+        padding: 6px 12px;
+    }
+
+    .close-btn {
+        font-size: 20px;
+    }
+
+    /* Collapse table layout for small screens */
+    .student-list table th,
+    .student-list table td {
+        display: block;
+        width: 100%;
+    }
+
+    .student-list table td {
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        padding-left: 40%;
+    }
+
+    .student-list table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+    }
+}

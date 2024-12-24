@@ -1,0 +1,396 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+}
+
+.navbar-left h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-right {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: #ffa500;
+    color: #fff;
+}
+
+.save-btn::before {
+    content: "\1F4C1";
+    /* Unicode for a downward arrow, you can change it to any other icon */
+    font-size: 1.2rem;
+    /* Adjust the size of the icon */
+    margin-right: 8px;
+    /* Space between the icon and text */
+    color: white;
+    /* Icon color */
+}
+
+/* Hover Effect */
+.save-btn:hover {
+    background-color: #0056b3;
+}
+
+.send-btn {
+    background-color: #32cd32;
+    color: #fff;
+}
+
+.send-btn::before {
+    content: "\1F680";
+    /* Unicode for rocket (🚀) */
+    font-size: 1.2rem;
+    margin-right: 8px;
+    color: white;
+}
+
+.navbar-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Styling the button */
+/* Styling the button */
+.add-group-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #FFC107;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Adding the handshake icon with CSS */
+.add-group-btn::before {
+    content: '\1F91D';
+    /* Unicode for handshake symbol */
+    font-size: 18px;
+    margin-right: 8px;
+    /* Space between icon and text */
+}
+
+/* Hover effect for button */
+.add-group-btn:hover {
+    background-color: #FFB300;
+}
+
+/* list btn */
+.list-btn {
+    position: relative;
+    /* For positioning the pseudo-element */
+    display: inline-flex;
+    /* Align icon and text horizontally */
+    align-items: center;
+    /* Center content vertically */
+    justify-content: center;
+    /* Center content horizontally */
+    background-color: #007BFF;
+    /* Blue background */
+    color: white;
+    /* White text */
+    border: none;
+    /* Remove border */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 10px 15px 10px 40px;
+    /* Extra left padding for icon */
+    font-size: 16px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold text */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s;
+    /* Smooth hover effect */
+}
+
+/* Add the icon using ::before */
+.list-btn::before {
+    content: '📋';
+    /* Replace with desired Unicode emoji or character */
+    position: absolute;
+    /* Position it inside the button */
+    left: 15px;
+    /* Adjust as needed for spacing */
+    font-size: 18px;
+    /* Icon size */
+    pointer-events: none;
+    /* Icon won't affect button clicks */
+}
+
+/* Hover effect */
+.list-btn:hover {
+    background-color: #0056b3;
+    /* Darker blue */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+}
+
+/* Active state */
+.list-btn:active {
+    background-color: #004085;
+    /* Even darker blue */
+    transform: translateY(1px);
+    /* Slightly pressed down */
+}
+
+/* Disabled state */
+.list-btn:disabled {
+    background-color: #ccc;
+    /* Light gray background */
+    color: #666;
+    /* Dark gray text */
+    cursor: not-allowed;
+    /* Not-allowed cursor */
+    opacity: 0.6;
+    /* Slightly transparent */
+}
+
+
+/* excel import btn */
+
+.import-excel-btn {
+    background-color: #28A745;
+    /* Green background */
+    color: white;
+    /* White text */
+    border: 2px solid #28A745;
+    /* Border matches background */
+    border-radius: 5px;
+    /* Slightly rounded corners */
+    padding: 10px 20px;
+    /* Padding for size */
+    font-size: 15px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold text */
+    text-align: center;
+    /* Center the text */
+    /* text-transform: uppercase; Capitalize all letters */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: all 0.3s ease;
+    /* Smooth transitions */
+    display: inline-flex;
+    /* Aligns for icons, if needed */
+    align-items: center;
+    /* Vertical centering for icon and text */
+    gap: 8px;
+    /* Space between icon and text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+.test-mail-btn {
+    background-color:orange;
+    /* Green background */
+    color: white;
+    /* White text */
+    border: 2px solid orange;
+    /* Border matches background */
+    border-radius: 5px;
+    /* Slightly rounded corners */
+    padding: 10px 20px;
+    /* Padding for size */
+    font-size: 15px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold text */
+    text-align: center;
+    /* Center the text */
+    /* text-transform: uppercase; Capitalize all letters */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: all 0.3s ease;
+    /* Smooth transitions */
+    display: inline-flex;
+    /* Aligns for icons, if needed */
+    align-items: center;
+    /* Vertical centering for icon and text */
+    gap: 8px;
+    /* Space between icon and text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+
+/* Optional: Add an Excel icon before the text */
+.test-mail-btn::before {
+    content: "📧";
+    /* Excel-like icon (Unicode) */
+    font-size: 18px;
+    /* Adjust size */
+}
+.send-bulk-btn {
+    background-color:orange;
+    /* Green background */
+    color: white;
+    /* White text */
+    border: 2px solid orange;
+    /* Border matches background */
+    border-radius: 5px;
+    /* Slightly rounded corners */
+    padding: 10px 20px;
+    /* Padding for size */
+    font-size: 15px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold text */
+    text-align: center;
+    /* Center the text */
+    /* text-transform: uppercase; Capitalize all letters */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: all 0.3s ease;
+    /* Smooth transitions */
+    display: inline-flex;
+    /* Aligns for icons, if needed */
+    align-items: center;
+    /* Vertical centering for icon and text */
+    gap: 8px;
+    /* Space between icon and text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+
+/* Optional: Add an Excel icon before the text */
+.send-bulk-btn::before {
+    content: "📥";
+    /* Excel-like icon (Unicode) */
+    font-size: 18px;
+    /* Adjust size */
+}
+
+/* Hover effect */
+.import-excel-btn:hover {
+    background-color: #218838;
+    /* Darker green */
+    border-color: #218838;
+    /* Match border to background */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    /* Enhanced shadow */
+    transform: scale(1.05);
+    /* Slight zoom on hover */
+}
+
+/* Active state */
+.import-excel-btn:active {
+    background-color: #1e7e34;
+    /* Even darker green */
+    border-color: #1c7430;
+    /* Match border */
+    transform: scale(0.95);
+    /* Slightly smaller on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Reduced shadow */
+}
+
+/* Disabled state */
+.import-excel-btn:disabled {
+    background-color: #c3e6cb;
+    /* Light green background */
+    color: #6c757d;
+    /* Muted text color */
+    border-color: #c3e6cb;
+    /* Match border */
+    cursor: not-allowed;
+    /* Not-allowed cursor */
+    opacity: 0.7;
+    /* Slight transparency */
+}
+
+/* For mobile devices (max-width: 768px) */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+
+    .navbar-left h1 {
+        font-size: 20px;
+    }
+
+    .navbar-right {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .navbar-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .add-group-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .list-btn {
+        padding: 8px 12px 8px 30px;
+        /* Adjust for smaller screen */
+        font-size: 14px;
+    }
+
+    .import-excel-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
+
+/* For very small screens (max-width: 480px) */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .navbar-left h1 {
+        font-size: 18px;
+    }
+
+    .navbar-right {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .navbar-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .add-group-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .list-btn {
+        padding: 6px 10px 6px 25px;
+        /* Adjust padding for smaller screens */
+        font-size: 12px;
+    }
+
+    .import-excel-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
