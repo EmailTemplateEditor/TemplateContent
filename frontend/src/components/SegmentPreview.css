@@ -58,7 +58,6 @@
 .banner-headings .icon {
     width: 80px;
     height:60px;
-    margin-top: 20px;
 
 }
 .segment-1 .right-image {
@@ -128,7 +127,7 @@
     }
 
 .segment-actions button {
-    background-color: #ff6347;
+    background-color: #ff9c8a;
     color: white;
     padding: 8px 12px;
     margin-left: 5px;
@@ -136,10 +135,20 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.modal-actions button {
+    background-color: #24c924;
+    color: white;
+    padding: 8px 12px;
+    margin-left: 5px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 
 .segment-actions button:first-child {
-    background-color: #1e90ff;
+    background-color: #99cafc;
 }
 
 .segment-actions button:hover {
@@ -168,11 +177,11 @@
 }
 
 
-.modal-content {
+.modal-seg-content {
     max-height:550px;
     width:600px;
     /* Adjust to your desired height */
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     padding: 20px;
     background-color: white;
@@ -208,9 +217,9 @@ input {
     border-radius: 5px;
 }
 
-.Footer-content{
+.Footer-content,.Mid-content{
     padding:20px;
     align-items: center;
-    height: 120px;
-    font-size:18px;
+    height: auto;
+    font-size:16px;
 }

@@ -1,121 +1,188 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './ListPage.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./ListPage.css";
+import { FiEdit, FiTrash2 } from "react-icons/fi"; // Import icons
+
+
+
+const ConfirmationModal = ({ isOpen, onClose, onConfirm, message }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content modal-confirm">
+        <p>{message}</p>
+        <div className="confirm">
+        <button className="editbtn" onClick={onConfirm}>
+          Yes
+        </button>
+        <button className="cancelbtn" onClick={onClose}>
+          No
+        </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const ListPage = ({ onClose }) => {
-  const [activeTab, setActiveTab] = useState("groups");
+ const [activeTab, setActiveTab] = useState("groups");
   const [groups, setGroups] = useState([]);
   const [students, setStudents] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [editingStudent, setEditingStudent] = useState(null);
   const [editFormData, setEditFormData] = useState({
-    name: '',
-    email: '',
-    group: ''
+    name: "",
+    email: "",
+    group: "",
   });
+  const [editingGroup, setEditingGroup] = useState(null);
+  const [groupName, setGroupName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch groups and students
-    axios.get("http://localhost:5000/groups")
-      .then(response => setGroups(response.data))
-      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:5000/groups")
+      .then((response) => setGroups(response.data))
+      .catch((err) => console.log(err));
 
-    axios.get("http://localhost:5000/students")
-      .then(response => setStudents(response.data))
-      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:5000/students")
+      .then((response) => setStudents(response.data))
+      .catch((err) => console.log(err));
   }, []);
 
-  const handleDeleteGroup = (groupId) => {
-    axios.delete(`http://localhost:5000/groups/${groupId}`)
-      .then(() => {
-        setGroups(groups.filter(group => group._id !== groupId));
-        alert("Group and its students deleted");
-      })
-      .catch(err => console.log(err));
+  // Delete a group
+   const handleDeleteGroup = (groupId) => {
+    setGroupToDelete(groupId);
+    setIsModalOpen(true);
   };
 
-//   const handleDeleteStudent = (studentId) => {
-//     axios.delete(`http://localhost:5000/students/${studentId}`)
-//       .then(() => {
-//         setStudents(students.filter(student => student._id !== studentId));
-//         alert("Student deleted");
-//       })
-//       .catch(err => console.log(err));
-//   };
-
+  const confirmDeleteGroup = () => {
+    if (groupToDelete) {
+      axios
+        .delete(`http://localhost:5000/groups/${groupToDelete}`)
+        .then(() => {
+          setGroups(groups.filter((group) => group._id !== groupToDelete));
+          toast.success("Group and its students deleted");
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Failed to delete group");
+        })
+        .finally(() => {
+          setIsModalOpen(false);
+          setGroupToDelete(null);
+        });
+    }
+  };
+  // Delete selected students
   const handleDeleteSelectedStudents = () => {
-    axios.delete("http://localhost:5000/students", {
-      data: { studentIds: selectedStudents }
-    })
-      .then(() => {
-        setStudents(students.filter(student => !selectedStudents.includes(student._id)));
-        setSelectedStudents([]);
-        alert("Selected students deleted");
+    if (selectedStudents.length === 0) {
+      toast.error("Please select students to delete.");
+      return;
+    }
+    axios
+      .delete("http://localhost:5000/students", {
+        data: { studentIds: selectedStudents },
       })
-      .catch(err => console.log(err));
+      .then(() => {
+        setStudents(
+          students.filter((student) => !selectedStudents.includes(student._id))
+        );
+        setSelectedStudents([]);
+        toast.success("Selected students deleted successfully!");
+      })
+      .catch((err) => toast.error("Failed to delete students"));
   };
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedStudents(students.map(student => student._id));
-    } else {
-      setSelectedStudents([]);
+  // Edit group name
+  const handleEditGroupName = (group) => {
+    setEditingGroup(group);
+    setGroupName(group.name);
+  };
+
+  const handleSaveGroupName = () => {
+    if (groupName.trim()) {
+      axios
+        .put(`http://localhost:5000/groups/${editingGroup._id}`, {
+          name: groupName,
+        })
+        .then(() => {
+          setGroups(
+            groups.map((group) =>
+              group._id === editingGroup._id
+                ? { ...group, name: groupName }
+                : group
+            )
+          );
+          setEditingGroup(null);
+          setGroupName("");
+          toast.success("Group name updated successfully!");
+        })
+        .catch((err) => toast.error("Failed to update group name"));
     }
   };
 
-  const handleSelectStudent = (e, studentId) => {
-    if (e.target.checked) {
-      setSelectedStudents([...selectedStudents, studentId]);
-    } else {
-      setSelectedStudents(selectedStudents.filter(id => id !== studentId));
-    }
-  };
-
+  // Edit student details
   const handleEditStudent = (student) => {
     setEditingStudent(student);
     setEditFormData({
       name: student.name,
       email: student.email,
-      group: student.group._id || ''
-    });
-  };
-
-  const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData({
-      ...editFormData,
-      [name]: value
+      group: student.group?._id || "",
     });
   };
 
   const handleSaveEdit = () => {
-    axios.put(`http://localhost:5000/students/${editingStudent._id}`, editFormData)
-      .then(response => {
-        const updatedStudent = response.data;
-        setStudents(students.map(student => student._id === updatedStudent._id ? updatedStudent : student));
+    axios
+      .put(`http://localhost:5000/students/${editingStudent._id}`, editFormData)
+      .then((response) => {
+        setStudents(
+          students.map((student) =>
+            student._id === response.data._id ? response.data : student
+          )
+        );
         setEditingStudent(null);
-        alert("Student details updated");
+        toast.success("Student details updated successfully!");
       })
-      .catch(err => console.log(err));
+      .catch((err) => toast.error("Failed to update student details"));
   };
 
   const filteredStudents = selectedGroup
-    ? students.filter(student => student.group && student.group._id === selectedGroup)
+    ? students.filter(
+        (student) => student.group && student.group._id === selectedGroup
+      )
     : students;
 
   return (
     <div className="modal-overlay">
-     
-      <div className="modal-content">
-         <button className="close-btn" onClick={onClose}>
-        &times;
-      </button>
+      <div className="modal-content modal-content-list">
+        <button className="close-btn" onClick={onClose}>
+          &times;
+        </button>
         <h2>List Page</h2>
-        <div class="btn-tabs">
-          <button class="btn" onClick={() => setActiveTab("groups")}>Groups</button>
-          <button class="btn" onClick={() => setActiveTab("students")}>Students</button>
+        <div className="btn-tabs">
+          <button
+            className={`btn ${activeTab === "groups" ? "active" : ""}`}
+            onClick={() => setActiveTab("groups")}
+          >
+            Groups
+          </button>
+          <button
+            className={`btn ${activeTab === "students" ? "active" : ""}`}
+            onClick={() => setActiveTab("students")}
+          >
+            Students
+          </button>
         </div>
+
         {activeTab === "groups" && (
           <div>
             <h3>Groups</h3>
@@ -123,12 +190,21 @@ const ListPage = ({ onClose }) => {
               <p>No groups available</p>
             ) : (
               groups.map((group) => (
-                <div key={group._id}>
+                <div key={group._id} className="groupbtn">
                   <span>{group.name}</span>
-                  <button class="btn" onClick={() => handleDeleteGroup(group._id)}>
-                    Delete
+                  <button
+                    className="delstudent"
+                    onClick={() => handleEditGroupName(group)}
+                  >
+              <FiEdit size={18} color="green"/>
                   </button>
-                </div>
+                    <button
+                    className="delstudent"
+                    onClick={() => handleDeleteGroup(group._id)}
+                  >
+                              <FiTrash2 size={18} color="red"/>
+                  </button>
+                  </div>
               ))
             )}
           </div>
@@ -138,10 +214,10 @@ const ListPage = ({ onClose }) => {
           <div>
             <h3>Students</h3>
             <div>
-              <label>Filter by Group: </label>
+              <label>Filter by Group:</label>
               <select
-                onChange={(e) => setSelectedGroup(e.target.value)}
                 value={selectedGroup || ""}
+                onChange={(e) => setSelectedGroup(e.target.value)}
               >
                 <option value="">All</option>
                 {groups.map((group) => (
@@ -151,69 +227,79 @@ const ListPage = ({ onClose }) => {
                 ))}
               </select>
             </div>
-            {filteredStudents.length === 0 ? (
+          {filteredStudents.length === 0 ? (
               <p>No students available</p>
             ) : (
               <>
-                <button className='btn' onClick={handleDeleteSelectedStudents}>
-                  Select And Delete
+                <button className="btn" onClick={handleDeleteSelectedStudents}>
+                  Delete Selected Students
                 </button>
                 <div className="student-list">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          <input type="checkbox" onChange={handleSelectAll} />
-                        </th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Group</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredStudents.map((student) => (
-                        <tr key={student._id}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={selectedStudents.includes(student._id)}
-                              onChange={(e) =>
-                                handleSelectStudent(e, student._id)
-                              }
-                            />
-                          </td>
-                          <td>{student.name}</td>
-                          <td>{student.email}</td>
-                          <td>
-                            {student.group ? student.group.name : "No group"}
-                          </td>
-                          <td>
-                            <button  onClick={() => handleEditStudent(student)}>
-                              Edit
-                            </button>
-                          </td>
-                          <td>
-                            <button
-                             onClick={handleDeleteSelectedStudents}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      onChange={(e) =>
+                        setSelectedStudents(
+                          e.target.checked
+                            ? filteredStudents.map((s) => s._id)
+                            : []
+                        )
+                      }
+                    />
+                  </th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Group</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredStudents.map((student) => (
+                  <tr key={student._id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedStudents.includes(student._id)}
+                        onChange={(e) =>
+                          setSelectedStudents((prev) =>
+                            e.target.checked
+                              ? [...prev, student._id]
+                              : prev.filter((id) => id !== student._id)
+                          )
+                        }
+                      />
+                    </td>
+                    <td>{student.name}</td>
+                    <td>{student.email}</td>
+                    <td>{student.group?.name || "No group"}</td>
+                    <td>
+                      <button className="editstudent"
+                        
+                        onClick={() => handleEditStudent(student)}
+                      >
+              <FiEdit size={18} color="green"/>
+                      </button>
+                       <button className="delstudent"
+                        onClick={handleDeleteSelectedStudents}
+                      >
+                              <FiTrash2 size={18} color="red"/>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+              </div>
               </>
             )}
           </div>
         )}
 
-        {/* Edit Form */}
         {editingStudent && (
-          <div className="edit-form">
+          <div className="edit-modal">
             <h3>Edit Student</h3>
             <form
               onSubmit={(e) => {
@@ -221,46 +307,67 @@ const ListPage = ({ onClose }) => {
                 handleSaveEdit();
               }}
             >
-              <div>
-                <label>Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={editFormData.name}
-                  onChange={handleEditFormChange}
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={editFormData.email}
-                  onChange={handleEditFormChange}
-                />
-              </div>
-              <div>
-                <label>Group</label>
-                <select
-                  name="group"
-                  value={editFormData.group}
-                  onChange={handleEditFormChange}
-                >
-                  <option value="">Select Group</option>
-                  {groups.map((group) => (
-                    <option key={group._id} value={group._id}>
-                      {group.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <button type="submit">Save Changes</button>
-              <button type="button" onClick={() => setEditingStudent(null)}>
+              <input
+                type="text"
+                name="name"
+                value={editFormData.name}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, name: e.target.value })
+                }
+              />
+              <input
+                type="email"
+                name="email"
+                value={editFormData.email}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, email: e.target.value })
+                }
+              />
+              <select
+                name="group"
+                value={editFormData.group}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, group: e.target.value })
+                }
+              >
+                <option value="">Select Group</option>
+                {groups.map((group) => (
+                  <option key={group._id} value={group._id}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+              <button className="editbtn" type="submit">Save</button>
+              <button className="cancelbtn" type="button" onClick={() => setEditingStudent(null)}>
                 Cancel
               </button>
             </form>
           </div>
         )}
+
+        {editingGroup && (
+          <div className="edit-modal">
+            <h3>Edit Group</h3>
+            <input
+              type="text"
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
+            />
+            <button className="editbtn" onClick={handleSaveGroupName}>Save</button>
+            <button className="cancelbtn" onClick={() => setEditingGroup(null)}>Cancel</button>
+          </div>
+        )}
+
+          {/* Confirmation Modal */}
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={confirmDeleteGroup}
+          message="Are you sure you want to delete this group?"
+        />
+
+
+        <ToastContainer />
       </div>
     </div>
   );

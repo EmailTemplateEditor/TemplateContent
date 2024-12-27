@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./GroupModal.css";
 import * as XLSX from "xlsx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import sampleexcels from '../Images/excelsheet.png';
 
 const GroupModal = ({ onClose }) => {
   const [groupName, setGroupName] = useState("");
@@ -19,7 +22,7 @@ const GroupModal = ({ onClose }) => {
       })
       .catch((error) => {
         console.error("Error fetching groups:", error);
-        alert("Failed to fetch groups");
+        toast.error("Failed to fetch groups");
       });
   }, []);
 
@@ -34,12 +37,12 @@ const GroupModal = ({ onClose }) => {
           setSelectedGroupForUpload(response.data._id);
           setSelectedGroupForManual(response.data._id);
 
-          alert("Group created");
+          toast.success("Group created");
           setGroupName(""); // Clear the group name input field
         })
         .catch((error) => {
           console.error("Error:", error);
-          alert("Failed to create group");
+          toast.error("Failed to create group");
         });
     }
   };
@@ -78,11 +81,11 @@ const GroupModal = ({ onClose }) => {
       axios
         .post("http://localhost:5000/students/upload", payload)
         .then(() => {
-          alert("Uploaded data saved to DB");
+          toast.success("Uploaded data saved");
           setUploadedData([]); // Clear uploaded data after saving
         });
     } else {
-      alert("Please select a group and upload data");
+      toast.error("Please select a group and upload data");
     }
   };
 
@@ -94,23 +97,23 @@ const GroupModal = ({ onClose }) => {
           group: selectedGroupForManual,
         })
         .then(() => {
-          alert("Manual student saved to DB");
+          toast.success("Manual student saved to DB");
           setManualStudent({ name: "", email: "" }); // Reset form fields
         });
     } else {
-      alert("Please fill all fields and select a group");
+      toast.error("Please fill all fields and select a group");
     }
   };
 
   return (
-    <div className="modal-overlay">
-     
+   <div className="modal-overlay">
+
       <div className="modal-group">
          <button className="modal-close-btn" onClick={onClose}>
-        X
+        &times;
       </button>
         <div className="modal-content">
-            
+
           {/* Group Creation Section */}
           <div className="group-creation-section">
             <h2 className="modal-title">Create Group</h2>
@@ -146,18 +149,20 @@ const GroupModal = ({ onClose }) => {
                 </option>
               ))}
             </select>
+            <h3 className="Sampleimg-heading">Sample excel format</h3>
+            <img
+            src={sampleexcels}
+            alt="Sample Excel Format"
+            className="samples-excels-images"
+          />
+          <h3 className="modal-section-title">Upload Data</h3>
             <input
               type="file"
               onChange={handleFileUpload}
               className="modal-input modal-file-input"
             />
-            <button
-              className="modal-btn btn-save-uploaded-data"
-              onClick={handleSaveUploadedData}
-            >
-              Save Upload
-            </button>
-            <h3 className="modal-section-title">Uploaded Data</h3>
+             <h3 className="modal-section-title">Uploaded Data</h3>
+
             <div className="modal-data-table">
               {uploadedData.length > 0 ? (
                 uploadedData.map((item, index) => (
@@ -170,6 +175,11 @@ const GroupModal = ({ onClose }) => {
                 <p>No data to display</p>
               )}
             </div>
+            <button className="modal-btn btn-save-uploaded-data"
+              onClick={handleSaveUploadedData}
+            >
+              Save Upload
+            </button>
           </div>
 
           {/* Manual Student Uploader Section */}
@@ -216,8 +226,8 @@ const GroupModal = ({ onClose }) => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };
-
 export default GroupModal;

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Importexcel.css";
 import sampleexcel from "../Images/excelsheet.png";
 
 const ExcelModal = ({ isOpen, onClose, segments = [] }) => {
   const [excelData, setExcelData] = useState([]);
   const [fileName, setFileName] = useState('');
-  const [message, setMessage] = useState(""); // State for subject of the email
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // State for loader
 
-  
   useEffect(() => {
     if (isOpen) {
-      console.log("Segments in SendexcelModal:", segments); // Log to verify
+      console.log("Segments in SendexcelModal:", segments);
     }
   }, [isOpen, segments]);
 
@@ -27,54 +29,55 @@ const ExcelModal = ({ isOpen, onClose, segments = [] }) => {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       setExcelData(jsonData);
-              console.log(jsonData); // Log to verify data
-
+      console.log(jsonData); // Log to verify data
     };
     reader.readAsArrayBuffer(file);
   };
-const handleSend = async () => {
+
+  const handleSend = async () => {
     if (excelData.length === 0) {
-        alert("Please upload an Excel file first.");
-        return;
+      toast.error("Please upload an Excel file first.");
+      return;
     }
 
-    const [headers, ...rows] = excelData;
+    const [headers] = excelData;
     const nameIndex = headers.indexOf("Name");
     const mailIndex = headers.indexOf("Email");
 
-    // Check if segments are available
-    if (!segments || segments.length === 0) {
-        alert("No segments available.");
-        return;
-    }
     if (nameIndex === -1 || mailIndex === -1) {
-        alert("Excel file must have Name and Email");
-        return;
+      toast.error("Excel file must have 'Name' and 'Email' columns.");
+      return;
     }
 
-    // Log the data to ensure it's being passed correctly
-    console.log("Excel Data:", excelData);
-    console.log("Segments:", segments);
-
+    if (!segments || segments.length === 0) {
+      toast.error("No segments available.");
+      return;
+    }
 
     try {
-        for (const row of rows) {
-            const [name, mail] = [row[nameIndex], row[mailIndex]];
-            const emailData = { name, mail, segments, message };
+      setIsLoading(true); // Show loader
+      console.log("Data being sent to backend:", { excelData, segments, message });
 
-            // Log the data being sent to the backend
-            console.log("Sending email data:", emailData);
-            console.log('Email Data:', JSON.stringify(emailData, null, 2));
+      const response = await axios.post("http://localhost:5000/sendexcelEmail", {
+        excelData,
+        segments,
+        message
+      });
 
-
-            await axios.post("http://localhost:5000/sendexcelEmail", emailData);
-        }
-        alert("Emails sent successfully!");
+toast.success("Emails sent successfully!");
+setTimeout(() => {
+  onClose();
+}, 5000); // Wait 3 seconds
+      setIsLoading(false); // Hide loader
+      onClose();
+      console.log("Server response:", response.data);
     } catch (error) {
-        console.error("Error sending emails:", error);
-        alert("Failed to send some emails.");
+      console.error("Error sending emails:", error.response?.data || error.message);
+      setIsLoading(false); // Hide loader
+      toast.error("Failed to send emails. Check the console for more details.");
     }
-};
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -84,29 +87,20 @@ const handleSend = async () => {
           &times;
         </button>
         <h2>Upload and Send Emails</h2>
-          {/* Subject Input */}
-          <label htmlFor="subject-input">Subject:</label>
-          <input
-            type="text"
-            id="subject-input"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Enter subject"
-          />
+        <label htmlFor="subject-input">Subject:</label>
+        <input
+          type="text"
+          id="subject-input"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter subject"
+        />
         <div className="excel-modal-body">
-             <h4>Sample excel format</h4>
-          {/* Sample Excel Image */}
-          <img
-            src={sampleexcel}
-            alt="Sample Excel Format"
-            className="sample-excel-image"
-          />
-             <h4>Upload excel file</h4>
-          {/* Excel Uploader */}
+          <h4>Sample excel format</h4>
+          <img src={sampleexcel} alt="Sample Excel Format" className="sample-excel-image" />
+          <h4>Upload excel file</h4>
           <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
           {fileName && <p>Uploaded File: {fileName}</p>}
-       
-          {/* View Button */}
           {excelData.length > 0 && (
             <button
               className="excel-modal-view-btn"
@@ -119,8 +113,6 @@ const handleSend = async () => {
             </button>
           )}
         </div>
-
-        {/* Table to View Excel Data */}
         {excelData.length > 0 && (
           <div className="excel-table-container">
             <table id="excel-table">
@@ -143,13 +135,11 @@ const handleSend = async () => {
             </table>
           </div>
         )}
-       
-
-        {/* Send Button */}
-        <button className="excel-modal-send-btn" onClick={handleSend}>
-          Send
+        <button className="excel-modal-send-btn" onClick={handleSend} disabled={isLoading}>
+          {isLoading ? "Processing..." : "Send"}
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };

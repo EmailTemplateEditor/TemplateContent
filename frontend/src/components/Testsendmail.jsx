@@ -1,54 +1,57 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './Testsendmail.css'
-const Testsendmail = ({ isOpen, onClose, segments = [] }) => {
-  const [recipientEmail, setRecipientEmail] = useState(""); // State for recipient's email
-  const [subject, setSubject] = useState(""); // State for subject of the email
-   const [name, setName] = useState(""); // State for subject of the email
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Testsendmail.css";
 
+const Testsendmail = ({ isOpen, onClose, segments = [] }) => {
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [name, setName] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false); // Loading state
 
   useEffect(() => {
     if (isOpen) {
-      console.log("Segments in SendtestModal:", segments); // Log to verify
+      console.log("Segments in SendtestModal:", segments);
     }
   }, [isOpen, segments]);
 
   const handleSend = async () => {
     if (!recipientEmail || !subject || !name) {
-      alert("Please provide a recipient email,name and subject.");
+      toast.warning("Please provide a recipient email, name, and subject.");
       return;
     }
 
-    // Check if segments are available
     if (!segments || segments.length === 0) {
-      alert("No segments available.");
+      toast.warning("No segments available.");
       return;
     }
-    console.log("Name:", name);
 
-    console.log("Recipient Email:", recipientEmail);
-    console.log("Subject:", subject);
-
-    console.log("Segments:", segments);
+    setIsProcessing(true);
 
     try {
-      // Prepare email data
       const emailData = {
         recipientEmail,
         subject,
         name,
-        segments, // Pass segments as part of the email data
+        segments,
       };
 
-      // Send email data to the backend
       await axios.post("http://localhost:5000/sendtestEmail", emailData);
-      alert("Email sent successfully!");
+      toast.success("Email sent successfully!");
+
+      // Reset form and close modal
       setRecipientEmail("");
       setSubject("");
-      onClose();
+      setName("");
+      setTimeout(() => {
+        setIsProcessing(false);
+        onClose();
+      }, 5000);
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send email.");
+      toast.error("Failed to send email.");
+      setIsProcessing(false);
     }
   };
 
@@ -62,7 +65,7 @@ const Testsendmail = ({ isOpen, onClose, segments = [] }) => {
         </button>
         <h2>Send Test Email</h2>
         <div className="send-modal-form">
-             {/* Subject Input */}
+          {/* Name Input */}
           <label htmlFor="name-input">Name:</label>
           <input
             type="text"
@@ -80,7 +83,6 @@ const Testsendmail = ({ isOpen, onClose, segments = [] }) => {
             onChange={(e) => setRecipientEmail(e.target.value)}
             placeholder="Enter recipient email"
           />
-          
           {/* Subject Input */}
           <label htmlFor="subject-input">Subject:</label>
           <input
@@ -90,13 +92,17 @@ const Testsendmail = ({ isOpen, onClose, segments = [] }) => {
             onChange={(e) => setSubject(e.target.value)}
             placeholder="Enter subject"
           />
-
           {/* Send Email Button */}
-          <button className="send-modal-submit-btn" onClick={handleSend}>
-            Send Mail
+          <button
+            className="send-modal-submit-btn"
+            onClick={handleSend}
+            disabled={isProcessing}
+          >
+            {isProcessing ? "Processing..." : "Send Mail"}
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

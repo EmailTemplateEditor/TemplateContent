@@ -1,70 +1,82 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './SendbulkModal.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./SendbulkModal.css";
 
 const SendbulkModal = ({ isOpen, onClose, segments = [] }) => {
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [message, setMessage] = useState("");
- useEffect(() => {
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
     if (isOpen) {
       console.log("Segments in SendbulkModal:", segments); // Log to verify
     }
   }, [isOpen, segments]);
 
-
   // Fetch groups on modal open
   useEffect(() => {
     if (isOpen) {
-      axios.get("http://localhost:5000/groups")
+      axios
+        .get("http://localhost:5000/groups")
         .then((response) => setGroups(response.data))
         .catch((error) => {
           console.error("Error fetching groups:", error);
-          alert("Failed to fetch groups");
+          toast.error("Failed to fetch groups.");
         });
     }
   }, [isOpen]);
-const handleSend = async () => {
-  if (!selectedGroup || !message) {
-    alert("Please select a group and enter a message.");
-    return;
-  }
 
-  // Check if segments is available
-  if (!segments || segments.length === 0) {
-    alert("No segments available.");
-    return;
-  }
-
-  console.log("Selected Group:", selectedGroup);
-  console.log("Message:", message);
-  console.log("Segments:", segments);
-
-  try {
-    const studentsResponse = await axios.get(`http://localhost:5000/groups/${selectedGroup}/students`);
-    const students = studentsResponse.data;
-
-    if (students.length === 0) {
-      alert("No students found in the selected group.");
+  const handleSend = async () => {
+    if (!selectedGroup || !message) {
+      toast.warning("Please select a group and enter a message.");
       return;
     }
 
-    const emailData = {
-      students,
-      segments, // Pass segments as part of the email data
-      message,  // Pass the message to be used as the email subject
-    };
+    if (!segments || segments.length === 0) {
+      toast.warning("No segments available.");
+      return;
+    }
 
-    await axios.post("http://localhost:5000/sendbulkEmail", emailData);
-    alert("Emails sent successfully!");
-    setSelectedGroup("");
-    setMessage("");
-    onClose();
-  } catch (error) {
-    console.error("Error sending emails:", error);
-    alert("Failed to send emails.");
-  }
-};
+    setIsProcessing(true);
+
+    try {
+      const studentsResponse = await axios.get(
+        `http://localhost:5000/groups/${selectedGroup}/students`
+      );
+      const students = studentsResponse.data;
+
+      if (students.length === 0) {
+        toast.warning("No students found in the selected group.");
+        setIsProcessing(false);
+        return;
+      }
+
+      const emailData = {
+        students,
+        segments,
+        message,
+      };
+
+      await axios.post("http://localhost:5000/sendbulkEmail", emailData);
+
+      toast.success("Emails sent successfully!");
+      setTimeout(() => {
+        setSelectedGroup("");
+        setMessage("");
+        setIsProcessing(false);
+        onClose(); // Close the modal after a short delay
+      }, 5000);
+    } catch (error) {
+      console.error("Error sending emails:", error);
+      toast.error("Failed to send emails.");
+      setTimeout(() => {
+        setIsProcessing(false);
+      }, 5000);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -96,11 +108,16 @@ const handleSend = async () => {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Enter your message here"
           />
-          <button className="send-modal-submit-btn" onClick={handleSend}>
-            Send Mail
+          <button
+            className="send-modal-submit-btn"
+            onClick={handleSend}
+            disabled={isProcessing}
+          >
+            {isProcessing ? "Processing..." : "Send Mail"}
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

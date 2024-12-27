@@ -8,7 +8,8 @@ import SendexcelModal from "../components/Importexcel";
 import Image1 from "../Images/HeaderTemp.png";
 import Image2 from "../Images/ContentTemp.png";
 import Image3 from "../Images/MiddleTemp.png";
-import Image4 from "../Images/FooterTemp.png";
+import Image4 from "../Images/MidContentTemp.png"
+import Image5 from "../Images/FooterTemp.png";
 import "./Mainpage.css";
 import SendTestMail from '../components/Testsendmail';
 
@@ -47,8 +48,14 @@ const [showSendexcelModal, setShowSendexcelModal] = useState(false); // State fo
         id: Date.now(),
         type,
         content: {
-          input: "Hello",
-          textEditor: "hello welcome",
+          input:"Hello",
+          textEditor: `          
+            <p><strong>By the end of 2022, borrowing rates could reach up to 3%.</strong></p>
+            <p>There is still time to make your real estate purchase in good conditions. More than ever, <em>a mortgage broker will be your ally</em> with banks to negotiate the best mortgage offer in your favour.</p>
+            <p>At Privilège Courtage, a French brokerage firm specialising in real estate loans, we have agreements with <strong>80 banking institutions</strong> that allow us to obtain the best loan conditions.</p>
+            <p><strong>Are you at the beginning of your research?</strong><br/>
+            <strong>Have you already found your property?</strong></p>
+          `,
         },
       };
     } else if (type === "segment-3") {
@@ -67,10 +74,27 @@ const [showSendexcelModal, setShowSendexcelModal] = useState(false); // State fo
       id: Date.now(),
       type,
       content: {
+        textEditor: `
+          <li>Ensuring the protection of your data</li>
+          <li>Simulation without commitment</li>
+          <p>Following this simulation, a Privilège Courtage broker will contact you, to refine your financing plan, facilitate your procedures, and put all the chances on your side.</p>
+          <p><strong>See you soon</strong></p>
+          <p><strong>Damien from Privilège Courtage.</strong></p>
+        `,
+      },
+    };
+  }
+
+  else if (type === "segment-5") {
+    newSegment = {
+      id: Date.now(),
+      type,
+      content: {
         textEditor:"Thank you for choosing us! we are comitted to deliver the best solutions for your needs.Staying touch follow us on social media on updates and offers.For questions or support contact us imageconindia@gmail.com."
       },
     };
   }
+
     console.log("Segments updated:", segments); // Check updated segments
     setSegments([...segments, newSegment]);
   };
@@ -141,12 +165,19 @@ const [showSendexcelModal, setShowSendexcelModal] = useState(false); // State fo
             onClick={() => handleAddSegment("segment-3")}
           />
 
-          <img
+         <img
             src={Image4}
             alt="Add Segment 4"
             className="circular-image-button"
             style={{ cursor: "pointer" }} // Ensures the cursor changes to a pointer for better UX
             onClick={() => handleAddSegment("segment-4")}
+          />
+            <img
+            src={Image5}
+            alt="Add Segment 5"
+            className="circular-image-button"
+            style={{ cursor: "pointer" }} // Ensures the cursor changes to a pointer for better UX
+            onClick={() => handleAddSegment("segment-5")}
           />
         </div>
         <SegmentPreview segments={segments} setSegments={setSegments} />

@@ -11,15 +11,56 @@
     align-items: center;
     padding: 20px;
 }
+.editbtn{
+     background-color: #24c924;
+     color: white;
+     padding: 8px 10px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+}
+.delstudent{
+    margin-left: 5px;
+}
+.groupbtn{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.deletebtn{
+     background-color:red;
+     color: white;
+     padding: 8px 10px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+}
+.cancelbtn {
+    background-color: red;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.confirm{
+    display: flex;
+}
 
-.modal-content {
+
+
+.modal-content-list {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
-    max-width: 550px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 850px;
     position: relative;
+    overflow: hidden !important;
+}
+.edit-group{
+    margin-top: 10px;
 }
 
 .btn{
@@ -54,6 +95,10 @@ h2,
 h3 {
     margin-top: 0;
     color: #333;
+}
+.student-list{
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 /* Table Styling */
@@ -93,6 +138,7 @@ select {
 
 .btn-tabs {
     display: flex;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
@@ -100,6 +146,12 @@ select {
 
 .btn {
     width: 200px;
+}
+.edit-form form label{
+    font-weight: bold;
+}
+.edit-form h3{
+    margin-top: 10px;
 }
 
 /* Responsive Styles */
