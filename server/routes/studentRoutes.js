@@ -35,22 +35,22 @@ router.post("/sendtestEmail", async (req, res) => {
     const emailContent = segments.map((segment) => {
       if (segment.type === "segment-1") {
         return `
-            <div style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
+            <div class="segment-1"  style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td class="leftban" style="width:70%;padding:15px 0px 20px 50px;">
-                    <div style="display: flex;">
-                      <img class="banimg" src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:20px;" />
-                      <h1 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
+                  <td class="banner" style="width:70%;padding:15px 0px 20px 50px;">
+                    <div style="display: flex;" class="banner-headings">
+                      <img class="icon"  src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:25px;" />
+                      <h2 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
                         ${segment.content.heading}
-                      </h1>
+                      </h2>
                     </div>
                     <p style="color:${segment.content.textColor || "white"};font-size:16px;margin-left:10px;">
                       ${segment.content.text}
                     </p>
                   </td>
-                  <td class="right-image" style="width:30%;">
-                    <img src="${segment.content.image}" alt="Right Image" style="max-width: 100%; height:180px;" />
+                  <td class="banner-right" style="width:30%;margin:0;padding:0;">
+                    <img class="right-image" src="${segment.content.image}" alt="Right Image" style="max-width:100%;height:170px;margin:0;padding:0"/>
                   </td>
                 </tr>
               </table>
@@ -75,7 +75,7 @@ router.post("/sendtestEmail", async (req, res) => {
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <!-- Left Column: Text and Button -->
-          <td class="leftseg" style="width:50%;padding:10px 0px 0px 30px;">
+          <td class="leftseg" style="width:50%;padding:10px 0px 0px 20px;">
             <h2 style="font-size:25px;color:${segment.content.textColor || "white"};font-weight:bold;line-height:1.6;">
               ${segment.content.heading}
             </h2>
@@ -113,7 +113,7 @@ router.post("/sendtestEmail", async (req, res) => {
             <div style="background: ${segment.content.backgroundColor || "black"};width:750px;font-size:18px;align-items:center;color:${segment.content.textColor || "white"}">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr style="padding:10px;">
-          <td style="padding:0px 10px 0px 20px;">
+          <td style="padding:0px 10px 0px 20px;font-size:15px;">
               <p>${segment.content.textEditor}</p>
             </td>
         </tr>
@@ -154,18 +154,39 @@ router.post("/sendtestEmail", async (req, res) => {
                    background-color:white !important;
                    width:360px !important;
                  }
-                 .banimg{
-                  margin-top:10px !important;
-                 }
-                 .right-image{
-                    display:none !important;
-                 }
-                 .leftban,.leftseg{
+                
+                   
+ .segment-1 .banner p{
+  font-size:10px !important;
+ 
+ }
+ .icon{
+  width:55px !important;
+  height:35px !important;
+  margin-top:20px !important;
+ }
+    .banner{
+        width:60% !important;
+        padding:10px !important;
+    }
+
+    .banner-right{
+        width:40% !important;
+    }
+
+    .right-image{
+        height:180px !important;
+      
+    }
+
+    .banner-headings h2{
+        font-size:13px !important;
+    }
+
+                 .leftseg{
                   width:100% !important;
                  }
-                 .leftban{
-                  padding:15px 5px 15px 25px !important;
-                 }
+                 
                  .leftseg{
                   height:250px !important;
                  }
@@ -178,15 +199,17 @@ router.post("/sendtestEmail", async (req, res) => {
                   width:300px !important;
                  }
                 h2{
-                  font-size:15px !important;
+                  font-size:13px !important;
                 }
-                 h1{
-                   font-size:15px !important;
-                 }
+                h1{
+                  font-size:13px !important;
+                }
                 p{
                   font-size:10px !important;
                   margin-left:0px !important;
                 }
+               
+                
               } 
             </style>
           </head>
