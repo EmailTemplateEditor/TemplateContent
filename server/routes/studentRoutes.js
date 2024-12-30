@@ -79,7 +79,7 @@ router.post("/sendtestEmail", async (req, res) => {
             <h2 style="font-size:25px;color:${segment.content.textColor || "white"};font-weight:bold;line-height:1.6;">
               ${segment.content.heading}
             </h2>
-            <div style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
+            <div class="seg-3-left" style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
             <a href="${segment.content.input}" style="
               text-decoration: none;
               color:${segment.content.buttonTextColor || "black"};
@@ -90,7 +90,7 @@ router.post("/sendtestEmail", async (req, res) => {
             <div>
           </td>
           <!-- Right Column: Image -->
-          <td class="right-image" style = "width:50%;">
+          <td class="seg-3-right-image" style="width:50%;">
             <img src="${segment.content.image}" alt="Right Image" style="width: 100%;height:280px;"/>
           </td>
         </tr>
@@ -174,7 +174,7 @@ router.post("/sendtestEmail", async (req, res) => {
         width:40% !important;
     }
 
-    .right-image{
+    .banner-right .right-image{
         height:180px !important;
       
     }
@@ -184,7 +184,14 @@ router.post("/sendtestEmail", async (req, res) => {
     }
 
                  .leftseg{
-                  width:100% !important;
+                  width:50% !important;
+                  padding-top:0px !important;
+                 }
+                 .seg-3-right-image{
+                  width:50% !important;
+                 }
+                 .seg-3-right-image img{
+                  height:250px !important;
                  }
                  
                  .leftseg{
@@ -195,8 +202,16 @@ router.post("/sendtestEmail", async (req, res) => {
                   background-color:white!important;
                   color:black !important;
                  }
+                 .seg-3-left{
+                  width:130px !important;
+                  padding:15px 0px !important;
+                 }
+                 .seg-3-left a{
+                  font-size:10px !important;
+                 }
                  .seg-3{
-                  width:300px !important;
+                  width:350px !important;
+                  height:250px !important;
                  }
                 h2{
                   font-size:13px !important;
@@ -284,31 +299,31 @@ router.post("/sendexcelEmail", async (req, res) => {
 
       // Generate email content based on segments
       const emailContent = segments.map((segment) => {
-        if (segment.type === "segment-1") {
-          return `
-            <div style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
+         if (segment.type === "segment-1") {
+           return `
+            <div class="segment-1"  style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td class="leftban" style="width:70%;padding:15px 0px 20px 50px;">
-                    <div style="display: flex;">
-                      <img class="banimg" src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:20px;" />
-                      <h1 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
+                  <td class="banner" style="width:70%;padding:15px 0px 20px 50px;">
+                    <div style="display: flex;" class="banner-headings">
+                      <img class="icon"  src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:25px;" />
+                      <h2 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
                         ${segment.content.heading}
-                      </h1>
+                      </h2>
                     </div>
                     <p style="color:${segment.content.textColor || "white"};font-size:16px;margin-left:10px;">
                       ${segment.content.text}
                     </p>
                   </td>
-                  <td class="right-image" style="width:30%;">
-                    <img src="${segment.content.image}" alt="Right Image" style="max-width: 100%; height:180px;" />
+                  <td class="banner-right" style="width:30%;margin:0;padding:0;">
+                    <img class="right-image" src="${segment.content.image}" alt="Right Image" style="max-width:100%;height:170px;margin:0;padding:0"/>
                   </td>
                 </tr>
               </table>
             </div>
           `;
-        } else if (segment.type === "segment-2") {
-          return `
+         } else if (segment.type === "segment-2") {
+           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
@@ -320,17 +335,17 @@ router.post("/sendexcelEmail", async (req, res) => {
       </table>
             </div>
           `;
-        } else if (segment.type === "segment-3") {
-          return `
+         } else if (segment.type === "segment-3") {
+           return `
     <div class="seg-3" style="background: ${segment.content.backgroundColor || "red"};width:650px;height:280px;margin:0 auto;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <!-- Left Column: Text and Button -->
-          <td class="leftseg" style="width:50%;padding:10px 0px 0px 30px;">
+          <td class="leftseg" style="width:50%;padding:10px 0px 0px 20px;">
             <h2 style="font-size:25px;color:${segment.content.textColor || "white"};font-weight:bold;line-height:1.6;">
               ${segment.content.heading}
             </h2>
-            <div style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
+            <div class="seg-3-left" style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
             <a href="${segment.content.input}" style="
               text-decoration: none;
               color:${segment.content.buttonTextColor || "black"};
@@ -341,14 +356,14 @@ router.post("/sendexcelEmail", async (req, res) => {
             <div>
           </td>
           <!-- Right Column: Image -->
-          <td class="right-image" style = "width:50%;">
+          <td class="seg-3-right-image" style="width:50%;">
             <img src="${segment.content.image}" alt="Right Image" style="width: 100%;height:280px;"/>
           </td>
         </tr>
       </table>
     </div>`;
-        } else if (segment.type === "segment-4") {
-          return `
+         } else if (segment.type === "segment-4") {
+           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
@@ -359,7 +374,7 @@ router.post("/sendexcelEmail", async (req, res) => {
       </table>
             </div>
           `;
-        } else if (segment.type === "segment-5") {
+         } else if (segment.type === "segment-5") {
           return `
             <div style="background: ${segment.content.backgroundColor || "black"};width:750px;font-size:18px;align-items:center;color:${segment.content.textColor || "white"}">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
@@ -379,7 +394,7 @@ router.post("/sendexcelEmail", async (req, res) => {
         from: "megarajan55@gmail.com",
         to: mail,
         subject: message,
-        html: `
+         html: `
           <html>
           <head>
             <style>
@@ -405,18 +420,46 @@ router.post("/sendexcelEmail", async (req, res) => {
                    background-color:white !important;
                    width:360px !important;
                  }
-                 .banimg{
-                  margin-top:10px !important;
+                
+                   
+ .segment-1 .banner p{
+  font-size:10px !important;
+ 
+ }
+ .icon{
+  width:55px !important;
+  height:35px !important;
+  margin-top:20px !important;
+ }
+    .banner{
+        width:60% !important;
+        padding:10px !important;
+    }
+
+    .banner-right{
+        width:40% !important;
+    }
+
+    .banner-right .right-image{
+        height:180px !important;
+      
+    }
+
+    .banner-headings h2{
+        font-size:13px !important;
+    }
+
+                 .leftseg{
+                  width:50% !important;
+                  padding-top:0px !important;
                  }
-                 .right-image{
-                    display:none !important;
+                 .seg-3-right-image{
+                  width:50% !important;
                  }
-                 .leftban,.leftseg{
-                  width:100% !important;
+                 .seg-3-right-image img{
+                  height:250px !important;
                  }
-                 .leftban{
-                  padding:15px 5px 15px 25px !important;
-                 }
+                 
                  .leftseg{
                   height:250px !important;
                  }
@@ -425,19 +468,29 @@ router.post("/sendexcelEmail", async (req, res) => {
                   background-color:white!important;
                   color:black !important;
                  }
+                 .seg-3-left{
+                  width:130px !important;
+                  padding:15px 0px !important;
+                 }
+                 .seg-3-left a{
+                  font-size:10px !important;
+                 }
                  .seg-3{
-                  width:300px !important;
+                  width:350px !important;
+                  height:250px !important;
                  }
                 h2{
-                  font-size:16px !important;
+                  font-size:13px !important;
                 }
-                 h1{
-                   font-size:16px !important;
-                 }
+                h1{
+                  font-size:13px !important;
+                }
                 p{
                   font-size:10px !important;
                   margin-left:0px !important;
                 }
+               
+                
               } 
             </style>
           </head>
@@ -497,31 +550,31 @@ router.post("/sendbulkEmail", async (req, res) => {
     // Send emails to each student in the provided list
     for (const student of students) {
       const emailContent = segments.map((segment) => {
-        if (segment.type === "segment-1") {
-          return `
-            <div style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
+         if (segment.type === "segment-1") {
+           return `
+            <div class="segment-1"  style="background: ${segment.content.backgroundColor || "red"};width:750px;height:180px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td class="leftban" style="width:70%;padding:15px 0px 20px 50px;">
-                    <div style="display: flex;">
-                      <img class="banimg" src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:20px;" />
-                      <h1 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
+                  <td class="banner" style="width:70%;padding:15px 0px 20px 50px;">
+                    <div style="display: flex;" class="banner-headings">
+                      <img class="icon"  src="${segment.content.icon}" alt="Icon" style="width:80px;height:60px;margin-top:25px;" />
+                      <h2 style="font-size:30px;color:${segment.content.textColor || "white"}; font-weight:600;padding-top:10px;">
                         ${segment.content.heading}
-                      </h1>
+                      </h2>
                     </div>
                     <p style="color:${segment.content.textColor || "white"};font-size:16px;margin-left:10px;">
                       ${segment.content.text}
                     </p>
                   </td>
-                  <td class="right-image" style="width:30%;">
-                    <img src="${segment.content.image}" alt="Right Image" style="max-width: 100%; height:180px;" />
+                  <td class="banner-right" style="width:30%;margin:0;padding:0;">
+                    <img class="right-image" src="${segment.content.image}" alt="Right Image" style="max-width:100%;height:170px;margin:0;padding:0"/>
                   </td>
                 </tr>
               </table>
             </div>
           `;
-        } else if (segment.type === "segment-2") {
-          return `
+         } else if (segment.type === "segment-2") {
+           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
@@ -533,17 +586,17 @@ router.post("/sendbulkEmail", async (req, res) => {
       </table>
             </div>
           `;
-        } else if (segment.type === "segment-3") {
-          return `
+         } else if (segment.type === "segment-3") {
+           return `
     <div class="seg-3" style="background: ${segment.content.backgroundColor || "red"};width:650px;height:280px;margin:0 auto;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <!-- Left Column: Text and Button -->
-          <td class="leftseg" style="width:50%;padding:10px 0px 0px 30px;">
+          <td class="leftseg" style="width:50%;padding:10px 0px 0px 20px;">
             <h2 style="font-size:25px;color:${segment.content.textColor || "white"};font-weight:bold;line-height:1.6;">
               ${segment.content.heading}
             </h2>
-            <div style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
+            <div class="seg-3-left" style="width:230px;text-align:center;padding:18px 0px;border-radius:15px;background-color:${segment.content.buttonBackgroundColor || "white"}">
             <a href="${segment.content.input}" style="
               text-decoration: none;
               color:${segment.content.buttonTextColor || "black"};
@@ -554,14 +607,14 @@ router.post("/sendbulkEmail", async (req, res) => {
             <div>
           </td>
           <!-- Right Column: Image -->
-          <td class="right-image" style = "width:50%;">
+          <td class="seg-3-right-image" style="width:50%;">
             <img src="${segment.content.image}" alt="Right Image" style="width: 100%;height:280px;"/>
           </td>
         </tr>
       </table>
     </div>`;
-        } else if (segment.type === "segment-4") {
-          return `
+         } else if (segment.type === "segment-4") {
+           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
         <tr>
@@ -572,7 +625,8 @@ router.post("/sendbulkEmail", async (req, res) => {
       </table>
             </div>
           `;
-        } else if (segment.type === "segment-5") {
+         } else if (segment.type === "segment-5") {
+       
           return `
             <div style="background: ${segment.content.backgroundColor || "black"};width:750px;font-size:18px;align-items:center;color:${segment.content.textColor || "white"}">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
@@ -592,7 +646,7 @@ router.post("/sendbulkEmail", async (req, res) => {
         from: "megarajan55@gmail.com",
         to: student.email,
         subject: message, // Replace the subject with the entered message
-        html: `
+         html: `
           <html>
           <head>
             <style>
@@ -618,18 +672,46 @@ router.post("/sendbulkEmail", async (req, res) => {
                    background-color:white !important;
                    width:360px !important;
                  }
-                 .banimg{
-                  margin-top:10px !important;
+                
+                   
+ .segment-1 .banner p{
+  font-size:10px !important;
+ 
+ }
+ .icon{
+  width:55px !important;
+  height:35px !important;
+  margin-top:20px !important;
+ }
+    .banner{
+        width:60% !important;
+        padding:10px !important;
+    }
+
+    .banner-right{
+        width:40% !important;
+    }
+
+    .banner-right .right-image{
+        height:180px !important;
+      
+    }
+
+    .banner-headings h2{
+        font-size:13px !important;
+    }
+
+                 .leftseg{
+                  width:50% !important;
+                  padding-top:0px !important;
                  }
-                 .right-image{
-                    display:none !important;
+                 .seg-3-right-image{
+                  width:50% !important;
                  }
-                 .leftban,.leftseg{
-                  width:100% !important;
+                 .seg-3-right-image img{
+                  height:250px !important;
                  }
-                 .leftban{
-                  padding:15px 5px 15px 25px !important;
-                 }
+                 
                  .leftseg{
                   height:250px !important;
                  }
@@ -638,19 +720,29 @@ router.post("/sendbulkEmail", async (req, res) => {
                   background-color:white!important;
                   color:black !important;
                  }
+                 .seg-3-left{
+                  width:130px !important;
+                  padding:15px 0px !important;
+                 }
+                 .seg-3-left a{
+                  font-size:10px !important;
+                 }
                  .seg-3{
-                  width:300px !important;
+                  width:350px !important;
+                  height:250px !important;
                  }
                 h2{
-                  font-size:16px !important;
+                  font-size:13px !important;
                 }
-                 h1{
-                   font-size:16px !important;
-                 }
+                h1{
+                  font-size:13px !important;
+                }
                 p{
                   font-size:10px !important;
                   margin-left:0px !important;
                 }
+               
+                
               } 
             </style>
           </head>
