@@ -109,7 +109,7 @@ setTimeout(() => {
                 table.scrollIntoView({ behavior: "smooth" });
               }}
             >
-              View
+              Uploaded List
             </button>
           )}
         </div>

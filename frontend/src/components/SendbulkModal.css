@@ -71,3 +71,9 @@
 .send-modal-submit-btn:hover {
     background: #45a049;
 }
+@media (max-width: 768px) {
+    .send-modal-content {
+        width: 85%;
+        margin: 0 auto;
+    }
+}

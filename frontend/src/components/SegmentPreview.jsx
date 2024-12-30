@@ -69,7 +69,7 @@ const SegmentPreview = ({ segments, setSegments }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/upload', formData, {
+      const response = await axios.post('http://localhost:5000/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -239,20 +239,22 @@ const SegmentPreview = ({ segments, setSegments }) => {
                   )}
 
                   {/* Background Color */}
-                  <label>Background Color:</label>
-                  <input
-                    type="color"
-                    value={modalContent.backgroundColor || "#ffffff"}
-                    onChange={(e) => handleModalChange("backgroundColor", e.target.value)}
-                  />
-                  <label>Text Color:</label>
-                  <input
-                    type="color"
-                    value={modalContent.textColor || "#ffffff"}
-                    onChange={(e) =>
-                      handleModalChange("textColor", e.target.value)
-                    }
-                  />
+      <div class="colors-content">
+      <label>Background Color :</label>
+      <input
+        type="color"
+        value={modalContent.backgroundColor || "#ffffff"}
+        onChange={(e) => handleModalChange("backgroundColor", e.target.value)}
+      />
+      <label>Text Color :</label>
+      <input
+         type="color"
+         value={modalContent.textColor || "#ffffff"}
+         onChange={(e) =>
+         handleModalChange("textColor", e.target.value)
+          }
+            />
+</div>
                 </>
               )}
 
@@ -309,6 +311,7 @@ const SegmentPreview = ({ segments, setSegments }) => {
                   {modalContent.image && (
                     <img src={modalContent.image} alt="RightImage Preview" className="preview" />
                   )}
+    <div className="colors-content">
 
                   {/* Background Color */}
                   <label>Background Color:</label>
@@ -343,6 +346,7 @@ const SegmentPreview = ({ segments, setSegments }) => {
                       handleModalChange("buttonTextColor", e.target.value)
                     }
                   />
+                  </div>
                 </>
               )}
 
@@ -400,8 +404,8 @@ const SegmentPreview = ({ segments, setSegments }) => {
             </>
 
             <div className="modal-actions">
-              <button className="action-btn" onClick={saveChanges}>Save</button>
-              <button className="action-btn" onClick={closeModal}>Cancel</button>
+              <button className="modal-btns" onClick={saveChanges}>Save</button>
+              <button className="modal-btns" onClick={closeModal}>Cancel</button>
             </div>
           </div>
         </div>

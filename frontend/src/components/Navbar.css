@@ -96,76 +96,42 @@
 
 /* list btn */
 .list-btn {
-    position: relative;
-    /* For positioning the pseudo-element */
-    display: inline-flex;
-    /* Align icon and text horizontally */
-    align-items: center;
-    /* Center content vertically */
-    justify-content: center;
-    /* Center content horizontally */
-    background-color: #007BFF;
-    /* Blue background */
-    color: white;
-    /* White text */
-    border: none;
-    /* Remove border */
-    border-radius: 5px;
-    /* Rounded corners */
-    padding: 10px 15px 10px 40px;
-    /* Extra left padding for icon */
-    font-size: 16px;
-    /* Font size */
-    font-weight: bold;
-    /* Bold text */
-    cursor: pointer;
-    /* Pointer cursor on hover */
-    transition: background-color 0.3s, transform 0.2s;
-    /* Smooth hover effect */
-}
-
+  background-color: #1fa6f5;
+  /* Green background */
+  color: white;
+  /* White text */
+  border: 2px solid #1fa6f5;
+  /* Border matches background */
+  border-radius: 5px;
+  /* Slightly rounded corners */
+  padding: 10px 20px;
+  /* Padding for size */
+  font-size: 15px;
+  /* Font size */
+  font-weight: bold;
+  /* Bold text */
+  text-align: center;
+  /* Center the text */
+  /* text-transform: uppercase; Capitalize all letters */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  transition: all 0.3s ease;
+  /* Smooth transitions */
+  display: inline-flex;
+  /* Aligns for icons, if needed */
+  align-items: center;
+  /* Vertical centering for icon and text */
+  gap: 8px;
+  /* Space between icon and text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  }
 /* Add the icon using ::before */
 .list-btn::before {
     content: '📋';
-    /* Replace with desired Unicode emoji or character */
-    position: absolute;
-    /* Position it inside the button */
-    left: 15px;
-    /* Adjust as needed for spacing */
     font-size: 18px;
-    /* Icon size */
-    pointer-events: none;
-    /* Icon won't affect button clicks */
-}
 
-/* Hover effect */
-.list-btn:hover {
-    background-color: #0056b3;
-    /* Darker blue */
-    transform: translateY(-2px);
-    /* Slight lift on hover */
 }
-
-/* Active state */
-.list-btn:active {
-    background-color: #004085;
-    /* Even darker blue */
-    transform: translateY(1px);
-    /* Slightly pressed down */
-}
-
-/* Disabled state */
-.list-btn:disabled {
-    background-color: #ccc;
-    /* Light gray background */
-    color: #666;
-    /* Dark gray text */
-    cursor: not-allowed;
-    /* Not-allowed cursor */
-    opacity: 0.6;
-    /* Slightly transparent */
-}
-
 
 /* excel import btn */
 
@@ -320,6 +286,7 @@
 }
 
 /* For mobile devices (max-width: 768px) */
+/* For mobile devices (max-width: 768px) */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -341,7 +308,7 @@
         font-size: 14px;
     }
 
-    .add-group-btn {
+    .add-group-btn,.send-bulk-btn,.test-mail-btn {
         padding: 8px 15px;
         font-size: 14px;
     }
@@ -373,7 +340,7 @@
         gap: 8px;
     }
 
-    .navbar-btn {
+    .navbar-btn,.send-bulk-btn,.test-mail-btn{
         padding: 6px 12px;
         font-size: 12px;
     }
@@ -392,5 +359,53 @@
     .import-excel-btn {
         padding: 6px 12px;
         font-size: 12px;
+    }
+}
+
+/* Toggle Button for Mobile View */
+.navbar-toggle {
+    display: none;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color:white;
+    cursor: pointer;
+}
+
+/* Mobile Menu */
+.navbar-menu {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index:8888;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.navbar-menu.show {
+    display: flex;
+}
+
+.navbar-menu button {
+    width: 100%;
+    text-align: left;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .navbar-right {
+        display: none;
+    }
+
+    .navbar-toggle {
+        display: block;
     }
 }

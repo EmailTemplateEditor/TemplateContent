@@ -81,17 +81,22 @@
 
     .controls {
         gap: 8px;
-        /* Reduce gap between buttons */
+        flex-direction: row;
+        position: sticky;
+        flex-wrap: nowrap;
+        top: 0;
+        background-color: white;
+        padding:15px 0px;
     }
 
-    .circular-image-button {
-        width: 150px;
-        /* Reduce the size of the circular button */
-    }
+   
 
     .controls button {
         padding: 8px;
         /* Reduce padding in buttons */
+    }
+    .editor-section{
+        flex-direction: column;
     }
 }
 
@@ -109,15 +114,102 @@
         /* Further reduce gap for smaller screens */
     }
 
-    .circular-image-button {
-        /* Further reduce button size */
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-    }
-
+   
     .controls button {
         padding: 6px;
         /* Further reduce padding */
+    }
+}
+@media screen and (max-width: 768px) {
+   .segment-1 .banner p{
+    font-size: 12px;
+}
+
+    .segment-preview {
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .segment {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .segment-1 {
+        /* flex-direction: column; */
+        gap: 10px;
+        height: auto;
+    }
+
+    .segment-1 .banner {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .banner-right {
+        width: 100%;
+    }
+
+    .segment-1 .right-image {
+        height:150px;
+    }
+
+    .banner-headings h2 {
+        font-size: 15px;
+    }
+
+    .segment-2 .segment-input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .segment-3 {
+        /* flex-direction: column; */
+        width: 95%;
+        height: auto;
+        /* padding: 10px; */
+    }
+
+    .segment-3 .banner {
+        width: 100%;
+        /* padding: 10px 0; */
+    }
+
+    .segment-3 .ban-img {
+        width: 100%;
+    }
+
+    .ban-img .right-image {
+        height:150px;
+    }
+
+    .modal-seg-content {
+        width: 90%;
+        max-height: 80vh;
+        padding: 15px;
+    }
+    .segment-3 .banner h2{
+        font-size: 15px;
+    }
+    .segment-3 .banner div{
+        width:150px;
+        padding:15px 0px;
+        border-radius: 15px;
+    }
+    .segment-3 .banner a{
+        font-size: 12px;
+    }
+
+    input {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .Footer-content,
+    .Mid-content {
+        padding: 15px;
+        font-size: 14px;
     }
 }

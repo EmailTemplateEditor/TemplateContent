@@ -37,10 +37,10 @@ const [showSendexcelModal, setShowSendexcelModal] = useState(false); // State fo
         id: Date.now(),
         type,
         content: {
-          icon: "https://i.ibb.co/4VFQzWF/images-removebg-preview.png",
+          icon: "https://media-hosting.imagekit.io//39456fb45f3c4188/images-removebg-preview.png?Expires=1735453231&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=xrQ~ZDmzOeoIpMa9~FybAbH6ZHXOS9nGIx3TSgysBUihYV2M2H-FK2KgDINeEgOdSyL9GJTzBD-e68nQTazy2~R4yWHEtMtZJ8Yqe1GIcytauY6~xXy59IatyPtSAXbdURDsAzp5oQjQD6VrNPpIT3ex077qWcQ57XUIqts2WEoRwjX~oUcr~SJ2yX3HlgCJbw~l1PjoQ66KdGiUJIPrqLLU~Emt1j-oiE3~r~bk4esrfh1ECgASaNvaAB5EB5wxzHFkN~NBSZF6Na7bMbRk6ySgwB-jlsFT8Kg-7I-mxLVhrJHf~i1DSsFjSqneQMwjaohCLZs9gVw-vAKn5k~R6w__",
           heading: "Imagecon Academy",
           text: "Privilege Brokerage in partnership with Imagecon",
-          image: "https://i.ibb.co/3m8BMYp/header-woman-block-removebg-preview.png",
+          image: "https://media-hosting.imagekit.io//a02a61b632bd40ce/header-woman-block-removebg-preview.png?Expires=1735453372&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=PGeSeg2iUnXR02Aawah-~4n-srR~Y~n9Kro~LedlPlq1EHJRluXVh5R49OYulitf3zNkNfR0ehqBiVwwC2h5Zty3xYwGSG1AKuUG-6F17b5YmtpzYKkMXXDCyHaZi-tKuW1y3L4DFNT6im377qVUzv6ebyJX4uraL5WHJVRxEvDGTL7xCUyZSRBavKa328K2bk-SvERgAEOwJaKsKEmE8HvLnu7z6eeCUGcOZulgxG32M-GgZdKbj0Z3IS~bIDjmOttnZxneg4oRDak9HBIGGHz7JdXwiJvHFMLrMclwQWR5mWriVOc7uj9FrFIrRiz1tDd-yyc~GiVOuxCJxpuo4A__",
         },
       };
     } else if (type === "segment-2") {
@@ -65,7 +65,7 @@ const [showSendexcelModal, setShowSendexcelModal] = useState(false); // State fo
         content: {
           input: "https://imageconindia.com",
           heading: "Don't wait to obtain the best conditions!",
-          image: "https://i.ibb.co/b3b2qd3/download.png",
+          image: "https://media-hosting.imagekit.io//9c67ff6473164d42/download.png?Expires=1735453413&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=JX2muMLsrBp2roqshY-ztOkH0fiCx3P1oEPJlQKQinharkC1OoSVTvZ-i597R1TABlNmxzZhzgJBd0aNAFARy1s~eIrcADoXJ8bP9aLoF9b6f~N9ruekZo817PqlTO0-WGqhILOLf-hcKB9sT1W9G-TOyiY9CHPceeNgpIg2YYjiSzovfgJ~gui6jjULTewDxnEgisXehaZ618E~FgGr1MP8h1tkPbx6VVwd6~WV5ASQ0LVI~P--TX1cyuTwXTgZi8ovKHVeFzIFCwxOAzX4zPIz0YAVhS4YIj6PVGvtlSAk7LH9NBKO5Jrrr5BeUFZNgqNSsiGI1EaKfgwKtwMtuQ__",
         },
       };
     }

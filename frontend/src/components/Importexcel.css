@@ -4,6 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -16,10 +17,11 @@
 }
 
 .excel-modal-content {
-    background: #f5f3f3;
+    background:white;
     padding: 20px;
     border-radius: 8px;
-    width: 500px;
+    z-index: 9999;
+    width: 700px;
     height: 450px;
     overflow-y: scroll;
     max-width: 90%;
@@ -93,4 +95,10 @@
 .excel-modal-content label{
     margin-bottom: 10px;
     font-weight: bold;
+}
+@media (max-width: 768px) {
+    .excel-modal-content {
+        width: 85%;
+        margin: 0 auto;
+    }
 }

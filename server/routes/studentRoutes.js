@@ -28,7 +28,7 @@ router.post("/sendtestEmail", async (req, res) => {
       service: "gmail",
       auth: {
         user: "megarajan55@gmail.com", // Replace with your email
-        pass: "jrwg fhjo guri toat", // Replace with your app-specific password
+        pass: "nspa ekns usue zdol", // Replace with your app-specific password
       },
     });
 
@@ -178,10 +178,10 @@ router.post("/sendtestEmail", async (req, res) => {
                   width:300px !important;
                  }
                 h2{
-                  font-size:16px !important;
+                  font-size:15px !important;
                 }
                  h1{
-                   font-size:16px !important;
+                   font-size:15px !important;
                  }
                 p{
                   font-size:10px !important;
@@ -244,7 +244,7 @@ router.post("/sendexcelEmail", async (req, res) => {
       service: "gmail",
       auth: {
         user: "megarajan55@gmail.com", // Replace with your email
-        pass: "jrwg fhjo guri toat", // Replace with your app-specific password
+        pass: "nspa ekns usue zdol", // Replace with your app-specific password
       },
     });
 
@@ -284,7 +284,7 @@ router.post("/sendexcelEmail", async (req, res) => {
               </table>
             </div>
           `;
-        } else if(segment.type === "segment-2") {
+        } else if (segment.type === "segment-2") {
           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
@@ -297,7 +297,7 @@ router.post("/sendexcelEmail", async (req, res) => {
       </table>
             </div>
           `;
-        } else if(segment.type === "segment-3") {
+        } else if (segment.type === "segment-3") {
           return `
     <div class="seg-3" style="background: ${segment.content.backgroundColor || "red"};width:650px;height:280px;margin:0 auto;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
@@ -324,7 +324,7 @@ router.post("/sendexcelEmail", async (req, res) => {
         </tr>
       </table>
     </div>`;
-        }else if(segment.type === "segment-4") {
+        } else if (segment.type === "segment-4") {
           return `
             <div class="seg-2" style="width:650px;margin:0 auto;">
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
@@ -467,7 +467,7 @@ router.post("/sendbulkEmail", async (req, res) => {
       service: "gmail",
       auth: {
         user: "megarajan55@gmail.com", // Replace with your email
-        pass: "jrwg fhjo guri toat", // Replace with your app-specific password
+        pass: "nspa ekns usue zdol", // Replace with your app-specific password
       },
     });
 
@@ -777,20 +777,37 @@ router.delete('/students', async (req, res) => {
 });
 
 // 5. PUT route to edit a student's details
-router.put('/students/:id', async (req, res) => {
+router.put("/students/:id", async (req, res) => {
+  const {
+    name,
+    email,
+    group
+  } = req.body;
   try {
-    const studentId = req.params.id;
-    const updatedData = req.body; // Data to update (e.g., name, email)
-    const updatedStudent = await Student.findByIdAndUpdate(studentId, updatedData, {
-      new: true
-    });
-    res.json(updatedStudent);
-  } catch (error) {
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student not found"
+      });
+    }
+
+    // Update the student details
+    student.name = name;
+    student.email = email;
+    student.group = group; // Ensure this is the correct reference (group ID)
+
+    await student.save();
+
+    res.json(student);
+  } catch (err) {
     res.status(500).json({
-      message: 'Error updating student'
+      message: "Error updating student",
+      error: err
     });
   }
 });
+
 
 //edit group name
 router.put('/groups/:id', (req, res) => {

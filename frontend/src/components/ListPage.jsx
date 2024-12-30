@@ -131,29 +131,46 @@ const ListPage = ({ onClose }) => {
   };
 
   // Edit student details
-  const handleEditStudent = (student) => {
+const handleEditStudent = (student) => {
+    toast.success("Editor student detail in bottom of tab");
+    console.log(student); // Debug log
     setEditingStudent(student);
     setEditFormData({
-      name: student.name,
-      email: student.email,
-      group: student.group?._id || "",
+        name: student.name,
+        email: student.email,
+        group: student.group?._id || "",
     });
-  };
+};
 
-  const handleSaveEdit = () => {
+const handleSaveStudent = () => {
+  if (editFormData.name.trim() && editFormData.email.trim() && editFormData.group) {
     axios
-      .put(`http://localhost:5000/students/${editingStudent._id}`, editFormData)
+      .put(`http://localhost:5000/students/${editingStudent._id}`, {
+        name: editFormData.name,
+        email: editFormData.email,
+        group: editFormData.group, // Send only the group ID here
+      })
       .then((response) => {
+        const updatedStudent = response.data;
+
+        // Update the students list with the updated student data
         setStudents(
           students.map((student) =>
-            student._id === response.data._id ? response.data : student
+            student._id === updatedStudent._id ? updatedStudent : student
           )
         );
-        setEditingStudent(null);
-        toast.success("Student details updated successfully!");
+
+        setEditingStudent(null); // Close the edit form
+        toast.success("Student updated successfully!");
       })
-      .catch((err) => toast.error("Failed to update student details"));
-  };
+      .catch((err) => {
+        console.error("Error updating student:", err);
+        toast.error("Failed to update student");
+      });
+  } else {
+    toast.error("All fields are required");
+  }
+};
 
   const filteredStudents = selectedGroup
     ? students.filter(
@@ -191,7 +208,8 @@ const ListPage = ({ onClose }) => {
             ) : (
               groups.map((group) => (
                 <div key={group._id} className="groupbtn">
-                  <span>{group.name}</span>
+                  <div>{group.name}</div>
+                  <div>
                   <button
                     className="delstudent"
                     onClick={() => handleEditGroupName(group)}
@@ -204,6 +222,7 @@ const ListPage = ({ onClose }) => {
                   >
                               <FiTrash2 size={18} color="red"/>
                   </button>
+                  </div>
                   </div>
               ))
             )}
@@ -301,47 +320,68 @@ const ListPage = ({ onClose }) => {
         {editingStudent && (
           <div className="edit-modal">
             <h3>Edit Student</h3>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSaveEdit();
-              }}
-            >
-              <input
-                type="text"
-                name="name"
-                value={editFormData.name}
-                onChange={(e) =>
-                  setEditFormData({ ...editFormData, name: e.target.value })
-                }
-              />
-              <input
-                type="email"
-                name="email"
-                value={editFormData.email}
-                onChange={(e) =>
-                  setEditFormData({ ...editFormData, email: e.target.value })
-                }
-              />
-              <select
-                name="group"
-                value={editFormData.group}
-                onChange={(e) =>
-                  setEditFormData({ ...editFormData, group: e.target.value })
-                }
-              >
-                <option value="">Select Group</option>
-                {groups.map((group) => (
-                  <option key={group._id} value={group._id}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
-              <button className="editbtn" type="submit">Save</button>
-              <button className="cancelbtn" type="button" onClick={() => setEditingStudent(null)}>
-                Cancel
-              </button>
-            </form>
+          <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleSaveStudent(); // Save the student when the form is submitted
+  }}
+>
+  {/* Name Input */}
+  <input
+    type="text"
+    name="name"
+    value={editFormData.name}
+    onChange={(e) =>
+      setEditFormData({ ...editFormData, name: e.target.value })
+    }
+    placeholder="Enter Name"
+  />
+
+  {/* Email Input */}
+  <input
+    type="email"
+    name="email"
+    value={editFormData.email}
+    onChange={(e) =>
+      setEditFormData({ ...editFormData, email: e.target.value })
+    }
+    placeholder="Enter Email"
+  />
+
+  {/* Group Dropdown */}
+  <select
+    name="group"
+    value={editFormData.group?._id || ""}
+    onChange={(e) => {
+      const selectedGroup = groups.find(
+        (group) => group._id === e.target.value
+      );
+      setEditFormData({ ...editFormData, group: selectedGroup || null });
+    }}
+  >
+    <option value="">Select Group</option>
+    {groups.map((group) => (
+      <option key={group._id} value={group._id}>
+        {group.name}
+      </option>
+    ))}
+  </select>
+
+  {/* Save Button */}
+  <button className="editbtn" type="submit">
+    Save
+  </button>
+
+  {/* Cancel Button */}
+  <button
+    className="cancelbtn"
+    type="button"
+    onClick={() => setEditingStudent(null)} // Close the edit form
+  >
+    Cancel
+  </button>
+</form>
+
           </div>
         )}
 

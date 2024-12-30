@@ -81,7 +81,7 @@ const GroupModal = ({ onClose }) => {
       axios
         .post("http://localhost:5000/students/upload", payload)
         .then(() => {
-          toast.success("Uploaded data saved");
+          toast.success("Uploaded data saved successfully");
           setUploadedData([]); // Clear uploaded data after saving
         });
     } else {
@@ -97,7 +97,7 @@ const GroupModal = ({ onClose }) => {
           group: selectedGroupForManual,
         })
         .then(() => {
-          toast.success("Manual student saved to DB");
+          toast.success("Manual student added successfully");
           setManualStudent({ name: "", email: "" }); // Reset form fields
         });
     } else {
